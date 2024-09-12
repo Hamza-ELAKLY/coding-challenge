@@ -18,8 +18,10 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = $this->productRepo->all();
-        return response()->json($products);
+        $sortOrder = $request->get('sort', 'asc');
+        $products = $this->productRepo->sortByPrice($sortOrder);
+
+        return view('index', ['products' => $products]);
     }
 
     //api requests

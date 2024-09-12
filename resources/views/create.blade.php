@@ -6,6 +6,12 @@
     <title>Create Product</title>
 </head>
 <body>
+    @if(session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
+
+    <h1>Create a New Product</h1>
+
     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <label for="name">Name:</label>

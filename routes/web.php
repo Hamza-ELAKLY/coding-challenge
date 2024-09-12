@@ -23,5 +23,6 @@ Route::get('/', function () {
 Route::middleware(['web'])->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'webStore'])->name('products.store');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 });
 

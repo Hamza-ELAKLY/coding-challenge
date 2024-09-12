@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+
 
 class ProductController extends Controller
 {
@@ -20,7 +22,8 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-    public function store(Request $request)
+    //api requests
+    public function apiStore(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -30,7 +33,23 @@ class ProductController extends Controller
         ]);
 
         $product = $this->productRepo->create($validated);
-        return response()->json($product,201);
+
+        return response()->json($product, 201);
+    }
+
+    //web requests
+    public function webStore(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        $product = $this->productRepo->create($validated);
+
+        return Redirect::route('products.create')->with('success', 'Product created successfully.');
     }
 
     public function filterByCategory($categoryId)
